@@ -1,0 +1,19 @@
+name: Build UEFI for Xiaomi Mi 9T/Redmi K20 (davinci)
+on:
+  workflow_dispatch:
+env:
+  CI_BUILD: true
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build UEFI for active devices
+        run: bash ./setup_env.sh -p apt && bash ./build_uefi.sh -d davinci -r DEBUG
+
+      - name: Upload UEFI images
+        uses: actions/upload-artifact@v4
+        with:
+          name: uefi-images
+          path: ./Mu-davinci.img
+          compression-level: 9
